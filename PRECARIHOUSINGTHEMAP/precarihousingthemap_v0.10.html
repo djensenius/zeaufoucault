@@ -5160,6 +5160,24 @@ L.marker([43.645939, -79.389252], {icon: blackletter}).bindPopup('<center>Dear R
 // MESSAGES TO HOUSING SECRETARIAT
 // Metro Hall 7th fl., 55 John St. Toronto ON M5V 3C6 
 // 43.645939, -79.389252
+
+// Sounds
+fetch('https://housing-sound-advocacy.azurewebsites.net/sound-list').then((response) => {
+  return response.json();
+}).then((json) => {
+  json.forEach((sound) => {
+    const url = sound.url;
+    const lat = sound.latitude;
+    const lng = sound.longitude;
+    const popup = L.popup().setContent(`<audio controls><source src="${url}" type="audio/mpeg"></audio>`)
+    const marker = L.marker(
+      [lat, lng],
+    //).bindPopup('<audio controls><source src="' + url + '" type="audio/mpeg"></audio>').addTo(mymap);
+    ).bindPopup(popup).addTo(mymap);
+    marker.on('click', function(ev) {marker.openPopup([lat, lng]) });
+  });
+});
+
 </script>
 
 
